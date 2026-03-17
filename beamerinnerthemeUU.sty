@@ -1,0 +1,291 @@
+% beamerinnerthemeUU.sty - title page, blocks, items, special frames
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerinnerthemeUU}[2026/03/17 UU Beamer Inner Theme]
+
+\RequirePackage{tikz}
+\usetikzlibrary{positioning}
+\RequirePackage{calc}
+\RequirePackage{setspace}
+\RequirePackage{etoolbox}
+
+% -- Internal: logo path storage (set by beamerthemeUU.sty) -----------
+\newcommand{\@uulogopath}{}
+\newcommand{\@uulogoblackpath}{}
+
+% -- Conference author switch -----------------------------------------
+% Enable conference-style multi-author formatting explicitly with:
+%   \multiauthor
+% Reset to single-author layout with:
+%   \singleauthor
+\newif\if@uumultiauthor
+\@uumultiauthorfalse
+\newcommand{\multiauthor}{\@uumultiauthortrue}
+\newcommand{\singleauthor}{\@uumultiauthorfalse}
+
+% -- Conference institute list ----------------------------------------
+% Two ways to set institutes for multi-author title pages:
+%
+% Option A — \addinstitute (recommended, no manual formatting needed):
+%   \addinstitute{1}{Dept.\ of ICS, Utrecht University}
+%   \addinstitute{2}{Faculty of EEMCS, Delft University of Technology}
+%   Call \clearinstitutes to reset between title pages.
+%
+% Option B — \confinstitute (manual, full control):
+%   \confinstitute{%
+%     {\scriptsize 1}\enspace Utrecht University \\[-1pt]
+%     {\scriptsize 2}\enspace Delft University%
+%   }
+\newcommand{\@uuconfinstitute}{}
+\newcommand{\confinstitute}[1]{\renewcommand{\@uuconfinstitute}{#1}}
+
+\newif\if@uufirstinstitute
+\@uufirstinstitutetrue
+
+\newcommand{\addinstitute}[2]{%
+  \if@uufirstinstitute
+    \gappto\@uuconfinstitute{{\scriptsize #1}\enspace #2}%
+    \global\@uufirstinstitutefalse
+  \else
+    \gappto\@uuconfinstitute{\\[-1pt]{\scriptsize #1}\enspace #2}%
+  \fi
+}
+
+\newcommand{\clearinstitutes}{%
+  \gdef\@uuconfinstitute{}%
+  \global\@uufirstinstitutetrue
+}
+
+% -- Venue metadata ----------------------------------------------------
+\newif\if@uuvenuepresent
+\@uuvenuepresentfalse
+\newcommand{\@uuvenue}{}
+\newcommand{\venue}[1]{%
+  \@uuvenuepresenttrue
+  \renewcommand{\@uuvenue}{#1}%
+}
+\newcommand{\uutitlemeta}{%
+  \if@uuvenuepresent
+    \vskip 2pt%
+    \@uuvenue
+    \ifx\insertdate\@empty\else
+      \enspace{\color{UUdarkgray}$\cdot$}\enspace\insertdate
+    \fi
+  \else
+    \insertdate
+  \fi
+}
+
+% -- Itemize -----------------------------------------------------------
+\setbeamertemplate{itemize item}{\scriptsize\raise1.5pt\hbox{\color{UUyellow}\vrule width 6pt height 6pt}}
+\setbeamertemplate{itemize subitem}{\scriptsize\raise1.5pt\hbox{\color{UUorange}\vrule width 5pt height 5pt}}
+\setbeamertemplate{itemize subsubitem}{\scriptsize\raise1.5pt\hbox{\color{UUbrown}\vrule width 4pt height 4pt}}
+
+% -- Enumerate ---------------------------------------------------------
+\setbeamertemplate{enumerate item}{%
+  \tikz[baseline=(num.base)]{
+    \node[fill=UUyellow, text=UUblack, font=\footnotesize\bfseries,
+          minimum size=1.4em, inner sep=0pt] (num) {\insertenumlabel};
+  }%
+}
+\setbeamertemplate{enumerate subitem}{%
+  \tikz[baseline=(num.base)]{
+    \node[fill=UUlightgray, text=UUdarkblue, font=\footnotesize\bfseries,
+          minimum size=1.2em, inner sep=0pt] (num) {\insertenumlabel};
+  }%
+}
+
+% -- Blocks ------------------------------------------------------------
+\setbeamertemplate{block begin}{%
+  \vskip 6pt%
+  \begin{beamercolorbox}[ht=2.6ex, dp=1ex, leftskip=0.6em, rightskip=0.6em]{block title}%
+    \usebeamerfont{block title}\insertblocktitle%
+  \end{beamercolorbox}%
+  \nointerlineskip%
+  \begin{beamercolorbox}[dp=1ex, leftskip=0.6em, rightskip=0.6em, vmode]{block body}%
+    \vskip 4pt%
+}
+\setbeamertemplate{block end}{%
+    \vskip 4pt%
+  \end{beamercolorbox}%
+  \vskip 4pt%
+}
+\setbeamertemplate{block alerted begin}{%
+  \vskip 6pt%
+  \begin{beamercolorbox}[ht=2.6ex, dp=1ex, leftskip=0.6em, rightskip=0.6em]{block title alerted}%
+    \usebeamerfont{block title}\insertblocktitle%
+  \end{beamercolorbox}%
+  \nointerlineskip%
+  \begin{beamercolorbox}[dp=1ex, leftskip=0.6em, rightskip=0.6em, vmode]{block body alerted}%
+    \vskip 4pt%
+}
+\setbeamertemplate{block alerted end}{%
+    \vskip 4pt%
+  \end{beamercolorbox}%
+  \vskip 4pt%
+}
+\setbeamertemplate{block example begin}{%
+  \vskip 6pt%
+  \begin{beamercolorbox}[ht=2.6ex, dp=1ex, leftskip=0.6em, rightskip=0.6em]{block title example}%
+    \usebeamerfont{block title}\insertblocktitle%
+  \end{beamercolorbox}%
+  \nointerlineskip%
+  \begin{beamercolorbox}[dp=1ex, leftskip=0.6em, rightskip=0.6em, vmode]{block body example}%
+    \vskip 4pt%
+}
+\setbeamertemplate{block example end}{%
+    \vskip 4pt%
+  \end{beamercolorbox}%
+  \vskip 4pt%
+}
+
+% ======================================================================
+%  TITLE PAGE
+% ======================================================================
+% Author layout is now controlled explicitly:
+%   - default: classic single-author layout
+%   - \multiauthor: multi-author conference layout
+%
+% Venue/date line is controlled independently through \venue{...}.
+\setbeamertemplate{title page}{%
+  \begin{tikzpicture}[remember picture, overlay]
+    % -- Yellow accent bar on left edge --
+    \fill[UUyellow]
+      (current page.north west) rectangle
+      ([xshift=8mm]current page.south west);
+    % -- Warm gradient extending from the bar --
+    \shade[left color=UUyellow, right color=UUyellow!0!white, opacity=0.28]
+      ([xshift=8mm]current page.north west) rectangle
+      ([xshift=0.40\paperwidth]current page.south west);
+    % -- Radiating lines FROM the Sol logo centre --
+    \coordinate (solcentre) at ([xshift=1.37cm, yshift=-1.45cm]current page.north west);
+    \foreach \a in {-25,-17,-9,-1,7,15,23,31,39,47,55,63,71,79,87} {
+      \draw[UUyellow, opacity=0.2, line width=0.7pt]
+        (solcentre) -- ++(\a:16cm);
+    }
+    % -- Logo top-left — positioned so Sol is at the ray origin --
+    \ifx\@uulogopath\@empty\else
+      \node[anchor=north west, inner sep=0pt]
+        at ([xshift=0.4cm, yshift=-0.5cm]current page.north west)
+        {\includegraphics[height=2cm]{\@uulogopath}};
+    \fi
+  \end{tikzpicture}%
+  %
+  \vskip 2.8cm%
+  \begin{beamercolorbox}[leftskip=1.5cm, rightskip=1cm]{title}
+    \usebeamerfont{title}\inserttitle\par%
+    \ifx\insertsubtitle\@empty\else
+      \vskip 6pt%
+      \usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par%
+    \fi
+  \end{beamercolorbox}
+  \vskip 8pt%
+  {\color{UUyellow}\hspace{1.5cm}\rule{3cm}{1.5pt}}%
+  \vskip 12pt%
+  %
+  \if@uumultiauthor
+    % --- Conference multi-author layout ---
+    \begin{beamercolorbox}[leftskip=1.5cm, rightskip=1cm]{author}
+      \usebeamerfont{author}%
+      \def\and{\unskip,\enspace}%
+      \def\inst##1{\textsuperscript{\footnotesize ##1}}%
+      \insertauthor%
+    \end{beamercolorbox}
+    \vskip 5pt%
+    \begin{beamercolorbox}[leftskip=1.5cm, rightskip=1cm]{institute}
+      \usebeamerfont{institute}\footnotesize%
+      \begin{tabular}[t]{@{}l@{}}
+        \@uuconfinstitute
+      \end{tabular}%
+    \end{beamercolorbox}
+    \vskip 3pt%
+    \begin{beamercolorbox}[leftskip=1.5cm, rightskip=1cm]{date}
+      \usebeamerfont{date}\uutitlemeta%
+    \end{beamercolorbox}
+  \else
+    % --- Classic single-author layout ---
+    \begin{beamercolorbox}[leftskip=1.5cm, rightskip=1cm]{author}
+      \usebeamerfont{author}\insertauthor%
+    \end{beamercolorbox}
+    \vskip 4pt%
+    \begin{beamercolorbox}[leftskip=1.5cm, rightskip=1cm]{institute}
+      \usebeamerfont{institute}\insertinstitute%
+    \end{beamercolorbox}
+    \vskip 4pt%
+    \begin{beamercolorbox}[leftskip=1.5cm, rightskip=1cm]{date}
+      \usebeamerfont{date}\uutitlemeta%
+    \end{beamercolorbox}
+  \fi
+}
+
+% ======================================
+%  SECTION PAGE
+% ======================================
+\if@UUnosection\else
+\AtBeginSection[]{%
+  \begingroup
+  \setbeamercolor{background canvas}{bg=UUyellow}
+  \begin{frame}[plain]
+    \vfill
+    \hspace{0.08\paperwidth}%
+    {\color{UUblack}\rule{4cm}{2pt}}\\[8pt]%
+    \hspace{0.08\paperwidth}%
+    {\color{UUblack}\LARGE\rmfamily\bfseries\insertsection}%
+    \vfill
+  \end{frame}
+  \endgroup
+}
+\fi
+
+% ======================================
+%  STANDOUT FRAME
+% ======================================
+\newcommand{\standoutframe}[1]{%
+  \begingroup
+  \setbeamercolor{background canvas}{bg=UUyellow}
+  \begin{frame}[plain]
+    \vfill
+    \begin{center}
+      {\color{UUblack}\rule{3cm}{1.5pt}}\\[14pt]
+      {\color{UUblack}\LARGE\rmfamily\bfseries #1\par}%
+      \vskip 14pt%
+      {\color{UUblack}\rule{3cm}{1.5pt}}%
+    \end{center}
+    \vfill
+  \end{frame}
+  \endgroup
+}
+
+% ======================================
+%  MANUAL SECTION PAGE
+% ======================================
+% \sectionframe{Title} produces the same yellow section-divider slide
+% as the automatic \AtBeginSection page, but on demand.
+% Useful with the nosectionpage option, or to insert a divider mid-section.
+\newcommand{\sectionframe}[1]{%
+  \begingroup
+  \setbeamercolor{background canvas}{bg=UUyellow}
+  \begin{frame}[plain]
+    \vfill
+    \hspace{0.08\paperwidth}%
+    {\color{UUblack}\rule{4cm}{2pt}}\\[8pt]%
+    \hspace{0.08\paperwidth}%
+    {\color{UUblack}\LARGE\rmfamily\bfseries #1}%
+    \vfill
+  \end{frame}
+  \endgroup
+}
+
+% -- Table of contents styling -----------------------------------------
+\setbeamertemplate{section in toc}{%
+  \tikz[baseline=(num.base)]{
+    \node[fill=UUyellow, text=UUblack, font=\footnotesize\bfseries,
+          minimum size=1.4em, inner sep=0pt] (num) {\inserttocsectionnumber};
+  }\hspace{0.5em}\inserttocsection\par
+}
+\setbeamertemplate{subsection in toc}{%
+  \hspace{2em}{\color{UUorange}\rule{4pt}{4pt}}\hspace{0.5em}%
+  {\small\inserttocsubsection}\par
+}
+
+\endinput

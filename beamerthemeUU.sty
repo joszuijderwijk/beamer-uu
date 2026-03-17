@@ -1,0 +1,115 @@
+% beamerthemeUU.sty — Utrecht University Beamer Theme
+%
+% Usage:  \usetheme{UU}
+%
+% Options:
+%   nl            — use Dutch logo (Universiteit Utrecht)
+%   showlogo      — show small UU logo on every content slide
+%   nosectionpage — suppress automatic section divider slides
+%
+% Commands:
+%   \standoutframe{Text}             — yellow emphasis slide
+%   \thankframe{Title}{Contact}      — closing slide
+%   \venue{Conference, City}         — enable conference title layout
+%
+% Logos are loaded automatically from logos/ based on the nl option.
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerthemeUU}[2026/03/17 A Beamer Theme for Utrecht University]
+
+% -- Options -----------------------------------------------------------
+\newif\if@UUnosection\@UUnosectionfalse
+\newif\if@UUnl\@UUnlfalse
+\newif\if@UUshowlogo\@UUshowlogofalse
+
+\DeclareOption{nosectionpage}{\@UUnosectiontrue}
+\DeclareOption{nl}{\@UUnltrue}
+\DeclareOption{showlogo}{\@UUshowlogotrue}
+\ProcessOptions\relax
+
+% -- Sub-themes ----------------------------------------------------------
+\usecolortheme{UU}
+\useinnertheme{UU}
+\useoutertheme{UU}
+
+% -- Code listings --------------------------------------------------------
+\RequirePackage{listings}
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\bfseries\color{UUdarkblue},
+  stringstyle=\color{UUgreen},
+  commentstyle=\itshape\color{UUdarkgray},
+  numberstyle=\tiny\color{UUdarkgray},
+  backgroundcolor=\color{UUlightgray},
+  frame=none,
+  numbers=left,
+  numbersep=8pt,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  xleftmargin=1.5em,
+}
+
+% -- bibliography -----------------------------------------------------------
+\usepackage[
+  backend=biber,
+  style=numeric,
+  sorting=none
+]{biblatex}
+
+\addbibresource{references.bib}
+
+% -- Font setup -----------------------------------------------------------
+\usepackage[T1]{fontenc}
+
+\IfFileExists{merriweather.sty}{%
+  \usepackage{merriweather}%
+}{%
+  \usepackage{palatino}%
+}
+\IfFileExists{opensans.sty}{%
+  \usepackage[default]{opensans}%
+}{}
+
+\usefonttheme{professionalfonts}
+\setbeamerfont{title}{family=\rmfamily, series=\bfseries, size=\LARGE}
+\setbeamerfont{subtitle}{family=\sffamily, size=\normalsize}
+\setbeamerfont{frametitle}{family=\rmfamily, series=\bfseries, size=\large}
+\setbeamerfont{author}{family=\sffamily, size=\normalsize}
+\setbeamerfont{institute}{family=\sffamily, size=\small}
+\setbeamerfont{date}{family=\sffamily, size=\small}
+\setbeamerfont{block title}{family=\sffamily, series=\bfseries, size=\normalsize}
+\setbeamerfont{caption}{size=\footnotesize}
+\setbeamerfont{footnote}{size=\tiny}
+
+% -- Default logo paths (based on nl option) ---------------------------
+\if@UUnl
+  \renewcommand{\@uulogopath}{logos/UU_logo_NL_RGB}
+  \renewcommand{\@uulogoblackpath}{logos/UU_logo_NL_ZWART}
+\else
+  \renewcommand{\@uulogopath}{logos/UU_logo_EN_RGB}
+  \renewcommand{\@uulogoblackpath}{logos/UU_logo_EN_BLACK}
+\fi
+
+% -- Numbered captions (Table 1, Figure 1, …) ---------------------------
+\setbeamertemplate{caption}[numbered]
+
+% -- Bibliography font size ---------------------------------------------
+\setbeamerfont{bibliography item}{size=\small}
+\setbeamerfont{bibliography entry author}{size=\small}
+\setbeamerfont{bibliography entry title}{size=\small}
+\setbeamerfont{bibliography entry location}{size=\small}
+\setbeamerfont{bibliography entry note}{size=\small}
+
+% -- Navigation symbols off ---------------------------------------------
+\setbeamertemplate{navigation symbols}{}
+
+% -- Hyperref colors ----------------------------------------------------
+\hypersetup{
+  colorlinks=true,
+  linkcolor=UUdarkblue,
+  urlcolor=UUpurple,
+  citecolor=UUdarkblue,
+}
+
+\endinput

@@ -1,0 +1,72 @@
+% beamerouterthemeUU.sty - frame title, footline, optional slide logo
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerouterthemeUU}[2026/03/17 UU Beamer Outer Theme]
+
+\RequirePackage{tikz}
+
+% -- Frame Title -----------------------------------------------------------
+\setbeamertemplate{frametitle}{%
+  \nointerlineskip%
+  \begin{beamercolorbox}[wd=\paperwidth, ht=3.2ex, dp=1.2ex, leftskip=0.6cm, rightskip=0.6cm]{frametitle}%
+    \usebeamerfont{frametitle}\insertframetitle%
+    \ifx\insertframesubtitle\@empty\else
+      \quad{\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\insertframesubtitle}%
+    \fi
+  \end{beamercolorbox}%
+  \nointerlineskip%
+  \begin{tikzpicture}[overlay]
+    \draw[UUyellow, line width=1.5pt] (-0.4cm,0) -- (\paperwidth,0);
+  \end{tikzpicture}%
+  \vskip 4pt%
+}
+
+% -- Footline -----------------------------------------------------------
+\setbeamertemplate{footline}{%
+  \leavevmode%
+
+    \hbox{%
+      \begin{beamercolorbox}[wd=.33\paperwidth,ht=2.8ex,dp=1.2ex,left,leftskip=.6cm]{footline}%
+        \usebeamerfont{footline}\insertshortauthor
+      \end{beamercolorbox}%
+      \begin{beamercolorbox}[wd=.34\paperwidth,ht=2.8ex,dp=1.2ex,center]{footline}%
+        \usebeamerfont{footline}\insertshorttitle
+      \end{beamercolorbox}%
+      \begin{beamercolorbox}[wd=.33\paperwidth,ht=2.8ex,dp=1.2ex,right,rightskip=.6cm]{footline}%
+        \usebeamerfont{footline}\insertframenumber\,/\,\inserttotalframenumber
+      \end{beamercolorbox}%
+    }%
+  % -- Optional logo on content slides (showlogo option) --
+  \if@UUshowlogo
+    \begin{tikzpicture}[overlay, remember picture]
+      \ifx\@uulogoblackpath\@empty\else
+        \node[anchor=north east, inner sep=0pt]
+          at ([xshift=0.3cm, yshift=0.2cm]current page.north east)
+          {\includegraphics[height=1.4cm]{\@uulogoblackpath}};
+      \fi
+    \end{tikzpicture}%
+  \fi
+}
+
+% -- Thank-you / closing frame --------------------------------
+\newcommand{\thankframe}[2]{%
+  \begingroup
+  \setbeamercolor{background canvas}{bg=UUyellow}
+  \begin{frame}[plain]
+    \vfill
+    \begin{center}
+      \vspace{1cm}
+      {\color{UUblack}\Huge\rmfamily\bfseries #1}\\[14pt]
+      {\color{UUblack!35}\rule{2.4cm}{0.8pt}}\\[16pt]
+      {\color{UUblack!65}\normalsize\sffamily #2}%
+      \vskip 36pt%
+      \ifx\@uulogoblackpath\@empty\else
+        \includegraphics[height=1.6cm]{\@uulogoblackpath}%
+      \fi
+    \end{center}
+    \vfill
+  \end{frame}
+  \endgroup
+}
+
+\endinput
