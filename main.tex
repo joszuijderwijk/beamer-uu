@@ -1,0 +1,352 @@
+% main.tex - showcase of the UU beamer theme
+\documentclass[aspectratio=169]{beamer}
+\usetheme[showlogo]{UU}
+
+% -- Metadata -----------------------------------
+\title[UU Beamer Theme]{Beamer Theme for UU {\footnotesize \quad \textcolor{UUred}{v1.0.0}}}
+\subtitle{A \LaTeX\ presentation template for Utrecht University}
+\author[H. Doofenshmirtz]{Dr. Heinz Doofenshmirtz}
+\institute{Department of Information and Computing Sciences}
+\date{\today}
+
+
+\begin{document}
+% ===========================================
+%  TITLE SLIDES  (single-author, then multi-author)
+% ===========================================
+
+% -- Single-author title --
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% -- Multi-author / conference title --
+\author[Alice et al.]{%
+  Alice\inst{1} \and
+  Bob\inst{1} \and
+  Eve\inst{2}%
+}
+\addinstitute{1}{Dept.\ of Information and Computing Sciences, Utrecht University}
+\addinstitute{2}{Faculty of EEMCS, Delft University of Technology}
+\multiauthor
+\venue{NeurIPS 2026}
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% -- Reset to single-author for the rest of the demo --
+\author[H. Doofenshmirtz]{Dr. Heinz Doofenshmirtz}
+\institute{Department of Information and Computing Sciences}
+\clearinstitutes
+\singleauthor
+
+% ===========================================
+%  TABLE OF CONTENTS
+% ===========================================
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+% ===========================================
+\section{Getting Started}
+% ===========================================
+
+\begin{frame}{Using the Theme}
+  Load the theme in your preamble and set your metadata:
+
+  \begin{itemize}
+    \item \texttt{\textbackslash usetheme\{UU\}} --- basic usage
+    \item \texttt{\textbackslash usetheme[showlogo]\{UU\}} --- logo on every slide
+    \item \texttt{\textbackslash usetheme[nl]\{UU\}} --- Dutch logo variant
+  \end{itemize}
+
+  \vskip 6pt
+  For conference-style multi-author title pages, use the standard
+  \texttt{\textbackslash author} / \texttt{\textbackslash institute}
+  with \texttt{\textbackslash and} and \texttt{\textbackslash inst\{n\}},
+  then activate with:
+  \begin{itemize}
+    \item \texttt{\textbackslash multiauthor}
+    \item \texttt{\textbackslash venue\{NeurIPS 2026, Utrecht\}} (optional)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Theme Options at a Glance}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Flags} \footnotesize
+        Pass as options to \texttt{\textbackslash usetheme[...]}\texttt{\{UU\}}:
+        \texttt{nl}, \texttt{showlogo}, \texttt{nosectionpage}.
+      \end{block}
+      \vskip 6pt
+      \begin{block}{Special Frames} \footnotesize
+        \texttt{\textbackslash standoutframe\{...\}} for emphasis.\\
+        \texttt{\textbackslash thankframe\{...\}\{...\}} to close.\\
+        \texttt{\textbackslash sectionframe\{...\}} manual section divider.
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth} \footnotesize
+      \begin{block}{Conference Title}
+        \texttt{\textbackslash multiauthor} activates multi-author layout.
+        Use \texttt{\textbackslash addinstitute\{n\}\{Name\}} to list affiliations
+        (numbered automatically). Call \texttt{\textbackslash clearinstitutes} to reset.
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \vskip 10pt
+  The \texttt{showlogo} flag is active in this demo, check out the top right corner of this slide.
+\end{frame}
+
+% Manual section divider demo (same style as automatic \AtBeginSection pages)
+\sectionframe{This is a manual \textbackslash sectionframe}
+
+% ===========================================
+\section{Colour Palette}
+% ===========================================
+
+\begin{frame}{UU Brand Colours}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{Primary Colours}
+        \textcolor{UUyellow}{\rule{1em}{1em}}~Yellow \texttt{\#FFCD00}\\[3pt]
+        \textcolor{UUred}{\rule{1em}{1em}}~Red \texttt{\#C00A35}\\[3pt]
+        {\rule{1em}{1em}}~Black \texttt{\#000000}\\[3pt]
+        \textcolor{white}{\rule{1em}{1em}}~White \texttt{\#FFFFFF}
+      \end{alertblock}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+    \begin{exampleblock}{Secondary Colours}
+        \begin{tabular}{@{}l@{\hspace{0.25em}} l@{\hspace{2em}} l@{\hspace{0.25em}} l@{}}
+        \textcolor{UUcream}{\rule{1em}{1em}}   & Cream      &
+        \textcolor{UUorange}{\rule{1em}{1em}}  & Orange \\[3pt]
+
+        \textcolor{UUburgundy}{\rule{1em}{1em}} & Burgundy   &
+        \textcolor{UUbrown}{\rule{1em}{1em}}    & Brown \\[3pt]
+
+        \textcolor{UUgreen}{\rule{1em}{1em}}   & Green      &
+        \textcolor{UUblue}{\rule{1em}{1em}}    & Blue \\[3pt]
+
+        \textcolor{UUdarkblue}{\rule{1em}{1em}} & Dark blue  &
+        \textcolor{UUpurple}{\rule{1em}{1em}}   & Purple
+        \end{tabular}
+    \end{exampleblock}
+    \end{column}
+  \end{columns}
+
+  \vskip 8pt
+  Yellow is the primary colour. \alert{Red} is used sparingly as accent.
+  Secondary colours are for data visualisation and infographics only.
+\end{frame}
+
+% ===========================================
+\section{Typography \& Blocks}
+% ===========================================
+
+\begin{frame}{Typography}
+  \begin{enumerate}
+    \item \textbf{Merriweather} (serif) for titles and headings
+    \item \textsf{Open Sans} (sans-serif) for body text
+    \item Fallback: Palatino + default sans if packages are not installed
+  \end{enumerate}
+
+  \vskip 10pt
+  \begin{exampleblock}{Tip}
+    Install \texttt{texlive-fonts-extra} for the authentic UU look.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Lists}
+  Itemize uses yellow square markers at three levels:
+
+  \begin{itemize}
+    \item First-level items use \textcolor{UUyellow}{yellow} squares
+    \begin{itemize}
+      \item Second-level items use \textcolor{UUorange}{orange}
+      \begin{itemize}
+        \item Third-level items use \textcolor{UUbrown}{brown}
+      \end{itemize}
+    \end{itemize}
+    \item Items can contain \textbf{bold}, \emph{italic}, or \alert{alerted} text
+    \item Keep bullets concise
+  \end{itemize}
+
+  \vskip 8pt
+  Enumerate uses numbered yellow squares:
+  \begin{enumerate}
+    \item First item
+    \item Second item
+    \item Third item
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Mathematics}
+  The theme supports mathematical typesetting \cite{tai1994mathematical}:
+
+$$
+\int_{a}^{b} f(x)\,dx \approx 
+\frac{h}{2}\left[f(x_0) + 2\sum_{i=1}^{n-1} f(x_i) + f(x_n)\right]
+$$
+
+  \begin{alertblock}{Note}
+    This is a note block, intended to grab the reader's attention.
+  \end{alertblock}
+\end{frame}
+
+% ===========================================
+\section{Diagrams \& Code}
+% ===========================================
+
+\begin{frame}{Workflow Diagram}
+  \begin{figure}
+  \centering
+  \begin{tikzpicture}[
+    node distance=0.6cm and 1.0cm,
+    box/.style={
+      rectangle, rounded corners=3pt,
+      minimum height=2em, minimum width=4.5em,
+      text centered, font=\sffamily\footnotesize,
+      draw=none
+    },
+    arr/.style={->, >=stealth, semithick, UUdarkgray},
+    scale=0.95, transform shape
+  ]
+    \node[box, fill=UUyellow, text=UUblack] (data) {Data};
+    \node[box, fill=UUorange!80, text=white, right=of data] (preprocess) {Pre-process};
+    \node[box, fill=UUgreen!90, text=white, right=of preprocess] (model) {Model};
+    \node[box, fill=UUblue!90, text=white, right=of model] (evaluate) {Evaluate};
+    \node[box, fill=UUburgundy!90, text=white, right=of evaluate] (deploy) {Deploy};
+
+    \draw[arr] (data) -- (preprocess);
+    \draw[arr] (preprocess) -- (model);
+    \draw[arr] (model) -- (evaluate);
+    \draw[arr] (evaluate) -- (deploy);
+
+    \draw[arr, UUred, dashed]
+      (evaluate.south) -- ++(0,-0.7) -| node[below, pos=0.25, font=\tiny\sffamily, UUred] {iterate} (model.south);
+  \end{tikzpicture}
+  \caption{Example process diagram with a numbered figure caption.}
+  \end{figure}
+
+  \vskip 6pt
+  TikZ diagrams integrate naturally with the UU colour palette.
+  Use \texttt{UUyellow}, \texttt{UUgreen}, \texttt{UUblue}, etc.\ directly.
+\end{frame}
+
+\begin{frame}[fragile]{Code Listing}
+The \texttt{listings} package is pre-configured with UU colours.
+  Specify the language and write code verbatim:
+
+  \begin{lstlisting}[language=Python]
+def fibonacci(n):
+    """Return the n-th Fibonacci number."""
+    if n <= 1:
+        return n
+    a, b = 0, 1
+    for _ in range(2, n + 1):
+        a, b = b, a + b  # shift window
+    return b
+
+print(fibonacci(10))  # 55
+  \end{lstlisting}
+\end{frame}
+
+% ===========================================
+\section{Tables \& Figures}
+% ===========================================
+
+\begin{frame}{Tables}
+  \begin{table}
+    \centering
+    \caption{Theme files overview}
+    \begin{tabular}{ll}
+      \hline
+      \textbf{File} & \textbf{Purpose} \\
+      \hline
+      \texttt{beamerthemeUU.sty}      & Main theme, options, fonts \\
+      \texttt{beamercolorthemeUU.sty}  & Official UU brand colours \\
+      \texttt{beamerinnerthemeUU.sty}  & Title page, blocks, special frames \\
+      \texttt{beamerouterthemeUU.sty}  & Frame title, footline, logo \\
+      \hline
+    \end{tabular}
+  \end{table}
+\end{frame}
+
+\begin{frame}{Figure in a Column Layout}
+  \begin{columns}[T]
+    \begin{column}{0.46\textwidth}
+      Pair figures with text using \texttt{columns}:
+      \begin{itemize}
+        \item Left column carries the narrative
+        \item Right column holds the figure
+        \item Caption is numbered automatically
+      \end{itemize}
+
+      \vskip 8pt
+      Use \texttt{[T]} on \texttt{columns} to top-align both sides,
+      and \texttt{\textbackslash centering} inside the figure.
+    \end{column}
+    \begin{column}{0.50\textwidth}
+      \begin{figure}
+        \centering
+        \begin{tikzpicture}[scale=0.82]
+         % bars
+          \foreach \x/\h/\col in {
+            0.4/1.2/UUblue,
+            1.1/2.4/UUblue,
+            1.8/1.8/UUblue,
+            2.5/2.9/UUyellow,
+            3.2/2.1/UUyellow,
+            3.9/3.0/UUyellow}{
+            \fill[\col!80] (\x,0) rectangle (\x+0.55,\h);
+          }
+          % axes
+          \draw[UUdarkgray, thin] (0,0) -- (4.5,0) node[right,font=\tiny\sffamily]{$x$};
+          \draw[UUdarkgray, thin] (0,0) -- (0,3.2) node[above,font=\tiny\sffamily]{$y$};
+          % legend
+          \fill[UUblue!80]  (0.3,3.05) rectangle (0.65,3.25);
+          \node[right,font=\tiny\sffamily] at (0.7,3.15) {Group A};
+          \fill[UUyellow!80] (2.0,3.05) rectangle (2.35,3.25);
+          \node[right,font=\tiny\sffamily] at (2.4,3.15) {Group B};
+        \end{tikzpicture}
+        \caption{Sample bar chart with UU colours.}
+      \end{figure}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% -- Standout --------------------------
+\standoutframe{Sharing science,\\[4pt]\textit{shaping tomorrow}.}
+
+% ===========================================
+\section{Closing}
+% ===========================================
+
+\begin{frame}{Summary}
+  \begin{enumerate}
+    \item Yellow-driven design, just as the UU likes it
+    \item Merriweather + Open Sans
+    \item Special frames: \texttt{\textbackslash standoutframe}, \texttt{\textbackslash thankframe}, \texttt{\textbackslash sectionframe}
+    \item Options: \texttt{nl}, \texttt{showlogo}, \texttt{nosectionpage}
+    \item Multi-author slides: \texttt{\textbackslash addinstitute\{n\}\{Name\}} + \texttt{\textbackslash multiauthor}
+    \item Syntax-highlighted code via \texttt{lstlisting} with UU colours
+  \end{enumerate}
+
+  \vskip 12pt
+  {\small Source and documentation: \url{https://github.com/joszuijderwijk/beamer-uu}}
+\end{frame}
+
+% -- Closing -----------------------------------
+\thankframe{Feedback?}{Please contribute \\ \url{https://github.com/joszuijderwijk/beamer-uu}}
+
+% -- references -----------------------------
+\begin{frame}[allowframebreaks]{References}
+  The Beamer class~\cite{tantau2004} provides the foundation.
+  UU brand guidelines~\cite{uubrand2025} define the colour palette,
+  typography, and logo usage rules.
+
+  \vskip 6pt
+  \printbibliography
+\end{frame}
+
+\end{document}
