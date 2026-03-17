@@ -35,7 +35,7 @@ Pass as `\usetheme[option1,option2]{UU}`:
 
 | Option | Effect |
 |--------|--------|
-| `nl` | Use Dutch logo (Universiteit Utrecht) |
+| `nl` | Use Dutch logo (Universiteit Utrecht), English is default |
 | `showlogo` | Show small B/W logo on every content slide |
 | `nosectionpage` | Suppress automatic section divider slides |
 
@@ -71,8 +71,7 @@ Activate multi-author layout with `\multiauthor`, then reset with `\singleauthor
 \singleauthor
 ```
 
-`\addinstitute{n}{Name}` accumulates entries in order — no manual `\scriptsize`
-formatting needed. `\clearinstitutes` resets the list and counter.
+`\addinstitute{n}{Name}` accumulates entries in order. `\clearinstitutes` resets the list and counter.
 For full manual control, `\confinstitute{...}` still accepts raw tabular content.
 
 `\venue{...}` replaces the date on the title page with a venue + date combination.
