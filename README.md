@@ -108,14 +108,11 @@ sudo apt install texlive-fonts-extra   # Merriweather + Open Sans
 
 ## Brand Colours
 
-**Primary:** `UUyellow` #FFCD00 · `UUred` #C00A35 · `UUblack` · `UUwhite`
-
-**Secondary:** `UUcream` · `UUorange` · `UUburgundy` · `UUbrown` ·
-`UUgreen` · `UUblue` · `UUdarkblue` · `UUpurple`
-
 All available as LaTeX colour names for use in TikZ, text, etc.
 Yellow is the primary colour. Red is used sparingly as accent.
 Secondary colours are for data visualisation and infographics only.
+
+For more information we refer to [the official guidelines](https://www.uu.nl/en/organisation/corporate-identity/brand-policy/colour).
 
 ## Design
 
