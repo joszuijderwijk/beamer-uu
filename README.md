@@ -1,6 +1,7 @@
 # UU Beamer Theme
 
 A LaTeX Beamer theme for Utrecht University, built on the official brand guidelines (colours, typography, logo placement).
+The theme is also readily available as a template on [Overleaf](https://www.overleaf.com/latex/templates/utrecht-university-beamer-template/srfwgqcwqncf).
 
 ## Quick Start
 
