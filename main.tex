@@ -1,14 +1,17 @@
 % main.tex - showcase of the UU beamer theme
-\documentclass[aspectratio=169]{beamer}
+\documentclass[aspectratio=169,10pt]{beamer}
 \usetheme[showlogo]{UU}
 
+
 % -- Metadata -----------------------------------
-\title[UU Beamer Theme]{Beamer Theme for UU {\footnotesize \quad \textcolor{UUred}{v1.0.0}}}
-\subtitle{A \LaTeX\ presentation template for Utrecht University}
+\title[UU Beamer Theme]{%
+  Beamer Theme for UU%
+  \texorpdfstring{{\footnotesize \quad \textcolor{UUred}{v1.1.0}}}{ v1.1.0}%
+}
 \author[H. Doofenshmirtz]{Dr. Heinz Doofenshmirtz}
+\subtitle{A \LaTeX\ presentation template for Utrecht University}
 \institute{Department of Information and Computing Sciences}
 \date{\today}
-
 
 \begin{document}
 % ===========================================
@@ -20,7 +23,9 @@
   \titlepage
 \end{frame}
 
-% -- Multi-author / conference title --
+% -- Multi-author / conference title (no subtitle - demonstrates that
+%    leaving it out is fine) --
+\subtitle{}
 \author[Alice et al.]{%
   Alice\inst{1} \and
   Bob\inst{1} \and
@@ -35,6 +40,7 @@
 \end{frame}
 
 % -- Reset to single-author for the rest of the demo --
+\subtitle{A \LaTeX\ presentation template for Utrecht University}
 \author[H. Doofenshmirtz]{Dr. Heinz Doofenshmirtz}
 \institute{Department of Information and Computing Sciences}
 \clearinstitutes
@@ -82,7 +88,8 @@
       \begin{block}{Special Frames} \footnotesize
         \texttt{\textbackslash standoutframe\{...\}} for emphasis.\\
         \texttt{\textbackslash thankframe\{...\}\{...\}} to close.\\
-        \texttt{\textbackslash sectionframe\{...\}} manual section divider.
+        \texttt{\textbackslash sectionframe\{...\}} manual section divider. \\
+        \texttt{\textbackslash closingframe \{...\}} slide with UU pay-off.
       \end{block}
     \end{column}
     \begin{column}{0.48\textwidth} \footnotesize
@@ -102,6 +109,7 @@
 \sectionframe{This is a manual \textbackslash sectionframe}
 
 % ===========================================
+\sectionimage{img/palette.jpg}
 \section{Colour Palette}
 % ===========================================
 
@@ -316,7 +324,15 @@ print(fibonacci(10))  # 55
 \end{frame}
 
 % -- Standout --------------------------
-\standoutframe{Sharing science,\\[4pt]\textit{shaping tomorrow}.}
+\standoutframe{  {\rmfamily\mdseries\LARGE\color{UUblack} Sharing science,}\vspace*{-0.2cm}\\{\opensans\fontseries{l}\LARGE\itshape\color{UUblack} shaping tomorrow}} % official spacing is a bit different though
+
+% full image
+
+
+\begin{frame}[plain]
+\fullbleedimage{img/academiegebouw.jpg}
+\end{frame}
+
 
 % ===========================================
 \section{Closing}
@@ -325,8 +341,8 @@ print(fibonacci(10))  # 55
 \begin{frame}{Summary}
   \begin{enumerate}
     \item Yellow-driven design, just as the UU likes it
-    \item Merriweather + Open Sans
-    \item Special frames: \texttt{\textbackslash standoutframe}, \texttt{\textbackslash thankframe}, \texttt{\textbackslash sectionframe}
+    \item Merriweather + Open Sans, 10pt body text by default
+    \item Special frames: \texttt{\textbackslash standoutframe}, \texttt{\textbackslash thankframe}, \texttt{\textbackslash closingframe}, \texttt{\textbackslash sectionframe},
     \item Options: \texttt{nl}, \texttt{showlogo}, \texttt{nosectionpage}
     \item Multi-author slides: \texttt{\textbackslash addinstitute\{n\}\{Name\}} + \texttt{\textbackslash multiauthor}
     \item Syntax-highlighted code via \texttt{lstlisting} with UU colours
@@ -336,8 +352,21 @@ print(fibonacci(10))  # 55
   {\small Source and documentation: \url{https://github.com/joszuijderwijk/beamer-uu}}
 \end{frame}
 
-% -- Closing -----------------------------------
+% -- Closing options demo --------------------------------------------
+% (1) Compact thank-you with title + contact line
 \thankframe{Feedback?}{Please contribute \\ \url{https://github.com/joszuijderwijk/beamer-uu}}
+
+% (2) Brand closing slide — just the UU logo and tagline
+\closingframe
+
+% (3) Brand closing slide with partner-logo area
+%     Replace the \rule boxes below with \includegraphics for real logos.
+\closingframe[%
+  \color{UUblack!30}%
+  \rule{2.6cm}{1.2cm}\hspace{0.8cm}%
+  \rule{2.6cm}{1.2cm}\hspace{0.8cm}%
+  \rule{2.6cm}{1.2cm}%
+]
 
 % -- references -----------------------------
 \begin{frame}[allowframebreaks]{References}

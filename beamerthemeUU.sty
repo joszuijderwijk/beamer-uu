@@ -9,13 +9,18 @@
 %
 % Commands:
 %   \standoutframe{Text}             — yellow emphasis slide
-%   \thankframe{Title}{Contact}      — closing slide
+%   \thankframe{Title}{Contact}      — compact closing slide
+%   \closingframe                    — brand closing slide (logo + tagline)
+%   \closingframe[partner logos]     — brand closing slide with partner area
+%   \imageframe{path}                — full-bleed image slide
+%   \begin{blankframe}…\end{...}     — completely empty slide
 %   \venue{Conference, City}         — enable conference title layout
 %
 % Logos are loaded automatically from logos/ based on the nl option.
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{beamerthemeUU}[2026/03/17 A Beamer Theme for Utrecht University]
+\ProvidesPackage{beamerthemeUU}[2026/05/14 v1.1.0 A Beamer Theme for Utrecht University]
+
 
 % -- Options -----------------------------------------------------------
 \newif\if@UUnosection\@UUnosectionfalse
@@ -79,8 +84,8 @@
 \setbeamerfont{institute}{family=\sffamily, size=\small}
 \setbeamerfont{date}{family=\sffamily, size=\small}
 \setbeamerfont{block title}{family=\sffamily, series=\bfseries, size=\normalsize}
-\setbeamerfont{caption}{size=\footnotesize}
-\setbeamerfont{footnote}{size=\tiny}
+\setbeamerfont{caption}{size=\small}
+\setbeamerfont{footnote}{size=\footnotesize}
 
 % -- Default logo paths (based on nl option) ---------------------------
 \if@UUnl

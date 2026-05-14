@@ -1,13 +1,14 @@
 % beamerinnerthemeUU.sty - title page, blocks, items, special frames
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{beamerinnerthemeUU}[2026/03/17 UU Beamer Inner Theme]
+\ProvidesPackage{beamerinnerthemeUU}[2026/05/14 v1.1.0 UU Beamer Inner Theme]
 
 \RequirePackage{tikz}
 \usetikzlibrary{positioning}
 \RequirePackage{calc}
 \RequirePackage{setspace}
 \RequirePackage{etoolbox}
+\RequirePackage{graphicx}
 
 % -- Internal: logo path storage (set by beamerthemeUU.sty) -----------
 \newcommand{\@uulogopath}{}
@@ -174,10 +175,10 @@
   \vskip 2.8cm%
   \begin{beamercolorbox}[leftskip=1.5cm, rightskip=1cm]{title}
     \usebeamerfont{title}\inserttitle\par%
-    \ifx\insertsubtitle\@empty\else
+    \ifdefempty{\insertsubtitle}{}{%
       \vskip 6pt%
       \usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par%
-    \fi
+    }%
   \end{beamercolorbox}
   \vskip 8pt%
   {\color{UUyellow}\hspace{1.5cm}\rule{3cm}{1.5pt}}%
@@ -221,22 +222,62 @@
 % ======================================
 %  SECTION PAGE
 % ======================================
+% Image for the *next* section divider (optional). Reset automatically
+% after use, so subsequent \section{...} calls revert to the yellow style.
+\newcommand{\@uusectionimage}{}
+\newcommand{\sectionimage}[1]{\renewcommand{\@uusectionimage}{#1}}
+
 \if@UUnosection\else
 \AtBeginSection[]{%
   \begingroup
-  \setbeamercolor{background canvas}{bg=UUyellow}
-  \begin{frame}[plain]
-    \vfill
-    \hspace{0.08\paperwidth}%
-    {\color{UUblack}\rule{4cm}{2pt}}\\[8pt]%
-    \hspace{0.08\paperwidth}%
-    {\color{UUblack}\LARGE\rmfamily\bfseries\insertsection}%
-    \vfill
-  \end{frame}
+  \ifdefempty{\@uusectionimage}{%
+    \sectionframe{\insertsection}%
+  }{%
+    \sectionframe[\@uusectionimage]{\insertsection}%
+  }%
+  \gdef\@uusectionimage{}% reset
   \endgroup
 }
 \fi
 
+% ======================================
+%  MANUAL SECTION PAGE
+% ======================================
+% \sectionframe{Title}              — yellow background (default)
+% \sectionframe[image path]{Title}  — image background, yellow title panel
+\NewDocumentCommand{\sectionframe}{O{} m}{%
+  \begingroup
+  \ifstrempty{#1}{%
+    \setbeamercolor{background canvas}{bg=UUyellow}
+    \begin{frame}[plain]
+      \vfill
+      \hspace{0.08\paperwidth}%
+      {\color{UUblack}\rule{4cm}{2pt}}\\[8pt]%
+      \hspace{0.08\paperwidth}%
+      {\color{UUblack}\LARGE\rmfamily\bfseries #2}%
+      \vfill
+    \end{frame}
+  }{%
+    \setbeamertemplate{background canvas}{%
+      \includegraphics[width=\paperwidth, height=\paperheight,
+                       keepaspectratio=false]{#1}%
+    }%
+    \setbeamertemplate{footline}{}%
+    \begin{frame}[plain]
+      \begin{tikzpicture}[remember picture, overlay]
+        \fill[UUyellow]
+          ([yshift= 0.22\paperheight]current page.west) rectangle
+          ([xshift=0.48\paperwidth, yshift=-0.22\paperheight]current page.west);
+        \node[anchor=west, text width=0.36\paperwidth, inner sep=0pt]
+          at ([xshift=0.08\paperwidth]current page.west) {%
+            {\color{UUblack}\rule{4cm}{2pt}}\\[8pt]%
+            {\color{UUblack}\LARGE\rmfamily\bfseries #2}%
+          };
+      \end{tikzpicture}%
+    \end{frame}
+  }%
+  \endgroup
+}
 % ======================================
 %  STANDOUT FRAME
 % ======================================
@@ -256,25 +297,28 @@
   \endgroup
 }
 
-% ======================================
-%  MANUAL SECTION PAGE
-% ======================================
-% \sectionframe{Title} produces the same yellow section-divider slide
-% as the automatic \AtBeginSection page, but on demand.
-% Useful with the nosectionpage option, or to insert a divider mid-section.
-\newcommand{\sectionframe}[1]{%
-  \begingroup
-  \setbeamercolor{background canvas}{bg=UUyellow}
-  \begin{frame}[plain]
-    \vfill
-    \hspace{0.08\paperwidth}%
-    {\color{UUblack}\rule{4cm}{2pt}}\\[8pt]%
-    \hspace{0.08\paperwidth}%
-    {\color{UUblack}\LARGE\rmfamily\bfseries #1}%
-    \vfill
-  \end{frame}
-  \endgroup
+% full width image with margins
+
+% Optional argument = margin, default 0.25cm
+\newcommand{\fullbleedimage}[2][0.5cm]{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \def\m{#1}%
+
+    \begin{scope}
+      \clip
+        ([xshift=\m,yshift=-\m]current page.north west)
+        rectangle
+        ([xshift=-\m,yshift=\m]current page.south east);
+
+      \node[inner sep=0pt] at (current page.center) {%
+        \includegraphics[
+          width=\paperwidth
+        ]{#2}%
+      };
+    \end{scope}
+  \end{tikzpicture}
 }
+
 
 % -- Table of contents styling -----------------------------------------
 \setbeamertemplate{section in toc}{%
@@ -286,6 +330,55 @@
 \setbeamertemplate{subsection in toc}{%
   \hspace{2em}{\color{UUorange}\rule{4pt}{4pt}}\hspace{0.5em}%
   {\small\inserttocsubsection}\par
+}
+
+
+% ======================================
+%  BRAND CLOSING FRAME
+% ======================================
+% \uupayoff — UU logo + payoff composed side-by-side (used by closingframe).
+\newcommand{\@uupayoff}{%
+  {\rmfamily\fontseries{l}\color{UUblack} \fontsize{13.5}{14}\selectfont Sharing science,}\vspace*{-0.05cm}\\{\opensans\fontseries{l}\Large\itshape\color{UUblack} shaping tomorrow}%
+}
+\newcommand{\uupayoff}[1]{\renewcommand{\@uupayoff}{#1}}
+
+\newcommand{\uubrandmark}{%
+  \begin{tikzpicture}
+    \node[inner sep=0pt] (uulogo) at (-1.5cm,0)
+      {\ifx\@uulogoblackpath\@empty\else
+         \includegraphics[height=3.3cm]{\@uulogoblackpath}%
+       \fi};
+    \node[anchor=west, inner sep=0pt] (tagline) at ([xshift=-1.5cm]uulogo.east)
+      {\begin{tabular}{@{}l@{}}\@uupayoff\end{tabular}};
+    \path ([xshift=1.5cm]tagline.east);
+  \end{tikzpicture}%
+}
+
+% \closingframe — yellow brand closing slide.
+% Usage:
+%   \closingframe                  — logo + payoff only (top of screenshot)
+%   \closingframe[partner content] — same, with rule and partner area below
+\newcommand{\closingframe}[1][]{%
+  \begingroup
+  \setbeamercolor{background canvas}{bg=UUyellow}
+  \begin{frame}[plain]
+    \ifstrempty{#1}{%
+      % Simple version – centred
+      \vfill
+      \begin{center}{\uubrandmark}\end{center}
+      \vfill
+    }{%
+      % With partner-logo area below a rule
+      \vskip 20pt%
+      \begin{center}\uubrandmark\end{center}
+      \vspace{-0.5cm}
+      \begin{center}{\color{UUblack}\rule{0.66\paperwidth}{0.4pt}}\end{center}
+      \vskip 8pt%
+      \begin{center}#1\end{center}
+      \vfill
+    }%
+  \end{frame}
+  \endgroup
 }
 
 \endinput
